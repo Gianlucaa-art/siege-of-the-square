@@ -1,0 +1,625 @@
+/* ==========================
+   SITO - stile comune a tutte le pagine
+   (il gioco usa ancora css/style.css)
+   ========================== */
+
+/* Colori presi dalla piazza del gioco */
+:root {
+  --legno-scuro: #22160e;   /* sfondo pagina */
+  --legno: #3a2618;         /* sfondo card, navbar, modali */
+  --pietra: #e8d3a8;        /* testo chiaro, come il selciato */
+  --oro: #d4a537;           /* bordi */
+  --oro-chiaro: #f0c75e;
+  --tetto: #b5452b;         /* pulsanti, come i tetti */
+  --tetto-scuro: #8e3220;
+  --pergamena: #f1e2bd;     /* sfondo chiaro dietro le illustrazioni */
+  --font-pixel: "Press Start 2P", monospace;
+}
+
+body {
+  background-color: var(--legno-scuro);
+  color: var(--pietra);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* Titoli e navbar con il font pixel */
+h1, h2, h3, h4, h5, h6,
+.navbar,
+.modal-title,
+.card-title,
+.btn {
+  font-family: var(--font-pixel);
+  line-height: 1.5;
+}
+
+h1 { font-size: 1.6rem; }
+h2 { font-size: 1.2rem; }
+h3, .card-title, .modal-title { font-size: 0.9rem; }
+.btn { font-size: 0.7rem; }
+
+a { color: var(--oro-chiaro); }
+a:hover { color: var(--oro); }
+
+/* Immagini pixel art nitide */
+.pixel {
+  image-rendering: pixelated;
+}
+
+/* ---------- Navbar ---------- */
+/* Navbar fissa in alto in tutte le pagine; il body lascia lo spazio della sua altezza */
+:root {
+  --navbar-h: 64px;
+}
+
+body {
+  padding-top: var(--navbar-h);
+}
+
+.navbar-sito {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  min-height: var(--navbar-h);
+  background-color: var(--legno);
+  border-bottom: 4px solid var(--oro);
+  font-size: clamp(0.75rem, 2.2vw, 0.95rem);   /* voci del menu (prima 0.7rem) */
+}
+
+/* Contenuto a tutta larghezza, allineato a sinistra (al posto del .container centrato) */
+.navbar-sito > .container {
+  max-width: none;
+  padding-left: 28px;
+  padding-right: 28px;
+}
+
+.navbar-sito .navbar-brand {
+  color: var(--oro-chiaro);
+  font-size: clamp(0.8rem, 2.4vw, 1rem);       /* prima 0.75rem */
+}
+
+.navbar-sito .nav-link {
+  color: var(--pietra);
+}
+
+.navbar-sito .nav-link:hover {
+  color: var(--oro-chiaro);
+}
+
+/* Voce della pagina corrente */
+.navbar-sito .nav-link.active {
+  color: var(--legno-scuro);
+  background-color: var(--oro);
+}
+
+.navbar-sito .navbar-toggler {
+  border: 2px solid var(--oro);
+  border-radius: 0;
+}
+
+/* ---------- Pulsanti (rosso tetti) ---------- */
+.btn-primary {
+  --bs-btn-bg: var(--tetto);
+  --bs-btn-border-color: var(--oro);
+  --bs-btn-hover-bg: var(--tetto-scuro);
+  --bs-btn-hover-border-color: var(--oro-chiaro);
+  --bs-btn-active-bg: var(--tetto-scuro);
+  --bs-btn-active-border-color: var(--oro-chiaro);
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  border-width: 3px;
+  border-radius: 0;
+}
+
+/* Pulsante spento: grigio e cursore "vietato" */
+.btn-primary:disabled {
+  --bs-btn-disabled-bg: #5a514a;
+  --bs-btn-disabled-border-color: #7a6f63;
+  --bs-btn-disabled-color: #b3a999;
+  --bs-btn-disabled-opacity: 1;
+  pointer-events: auto;   /* Bootstrap li toglie, ma servono per mostrare il cursore */
+  cursor: not-allowed;
+}
+
+/* Pulsanti secondari (filtri, chiudi) */
+.btn-outline-oro {
+  --bs-btn-color: var(--oro-chiaro);
+  --bs-btn-border-color: var(--oro);
+  --bs-btn-hover-bg: var(--oro);
+  --bs-btn-hover-color: var(--legno-scuro);
+  --bs-btn-hover-border-color: var(--oro);
+  --bs-btn-active-bg: var(--oro);
+  --bs-btn-active-color: var(--legno-scuro);
+  border-width: 3px;
+  border-radius: 0;
+}
+
+/* ---------- Card e modali: bordo dorato squadrato ---------- */
+.card,
+.modal-content {
+  background-color: var(--legno);
+  color: var(--pietra);
+  border: 4px solid var(--oro);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #000;
+}
+
+.card-img-top {
+  border-radius: 0;
+  image-rendering: pixelated;
+}
+
+.modal-header,
+.modal-footer {
+  border-color: var(--oro);
+}
+
+/* ---------- Bestiario: card dei mostri ---------- */
+
+/* La card è cliccabile: manina e leggero sollevamento */
+#cards .card {
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s, border-color 0.1s;
+}
+
+#cards .card:hover {
+  border-color: var(--oro-chiaro);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000;
+}
+
+/* Card di un mostro scelto: bordo oro chiaro, cornice rossa e bagliore squadrato */
+#cards .card.scelta {
+  border-color: var(--oro-chiaro);
+  box-shadow:
+    0 0 0 3px var(--tetto),
+    0 0 0 7px rgba(240, 199, 94, 0.35),
+    7px 7px 0 4px #000;
+}
+
+/* Etichetta "Scelto" in alto a sinistra */
+#cards .card.scelta::before {
+  content: "Chosen";
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  padding: 3px 5px;
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  color: #fff;
+  background-color: var(--tetto);
+  border: 2px solid var(--oro-chiaro);
+  box-shadow: 2px 2px 0 #000;
+}
+
+/* ---------- Bestiario: barra della selezione ---------- */
+.barra-selezione {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: var(--legno);
+  border: 4px solid var(--oro);
+  box-shadow: 4px 4px 0 #000;
+}
+
+.azioni-selezione {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* "Mostri a caso": pulsante secondario con un dado in pixel art disegnato in CSS */
+#btn-random {
+  position: relative;
+  padding-left: 2.3rem;
+}
+
+/* la faccia del dado: un quadrato 14x14 con il bordo del colore del testo */
+#btn-random::before {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin-top: -7px;
+  border: 2px solid currentColor;
+}
+
+/* i cinque puntini (faccia del 5): un pixel 2x2 copiato con box-shadow */
+#btn-random::after {
+  content: "";
+  position: absolute;
+  left: calc(0.75rem + 3px);
+  top: 50%;
+  width: 2px;
+  height: 2px;
+  margin-top: -4px;
+  background-color: currentColor;
+  box-shadow: 6px 0 currentColor, 3px 3px currentColor, 0 6px currentColor, 6px 6px currentColor;
+}
+
+/* Modalità "battaglia a sorpresa" accesa (classe .attivo aggiunta da JavaScript):
+   pulsante premuto, oro con testo scuro, cornice chiara e bagliore squadrato */
+#btn-random.attivo {
+  --bs-btn-color: var(--legno-scuro);
+  --bs-btn-bg: var(--oro);
+  --bs-btn-border-color: var(--oro-chiaro);
+  --bs-btn-hover-color: var(--legno-scuro);
+  --bs-btn-hover-bg: var(--oro-chiaro);
+  --bs-btn-hover-border-color: #fff3c4;
+  --bs-btn-active-color: var(--legno-scuro);
+  --bs-btn-active-bg: var(--oro-chiaro);
+  --bs-btn-active-border-color: #fff3c4;
+  box-shadow:
+    0 0 0 3px var(--legno-scuro),
+    0 0 0 6px rgba(240, 199, 94, 0.45);
+  transform: translate(1px, 1px); /* sembra premuto */
+}
+
+/* Acceso: al posto dei puntini del dado c'è una spunta ✓ in pixel art,
+   così la differenza si vede anche senza distinguere i colori */
+#btn-random.attivo::after {
+  left: calc(0.75rem + 2px);
+  margin-top: -1px;
+  box-shadow: 2px 2px currentColor, 4px 0 currentColor, 6px -2px currentColor, 8px -4px currentColor;
+}
+
+#contatore-scelti {
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  color: var(--oro-chiaro);
+}
+
+/* Area delle immagini: stessa altezza in tutte le card, sfondo pergamena */
+.card-immagini {
+  position: relative;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--pergamena);
+  border-bottom: 4px solid var(--oro);
+}
+
+/* Illustrazione D&D: entra tutta nell'area senza deformarsi */
+.immagine-dnd {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.75rem;
+}
+
+/* Riquadrino con lo sprite dell'Arena, in basso a destra sopra l'illustrazione */
+.icona-arena {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 4px 3px;
+  background-color: var(--legno);
+  border: 3px solid var(--oro);
+  box-shadow: 2px 2px 0 #000;
+}
+
+.icona-arena img {
+  width: 56px;
+  height: 56px;
+  image-rendering: pixelated;
+}
+
+.icona-arena span {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--oro-chiaro);
+  line-height: 1.6;
+}
+
+/* Sprite 128x128 (card senza illustrazione e finestra della scheda) */
+.anteprima-pixel {
+  display: block;
+  width: 128px;
+  max-width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  image-rendering: pixelated;
+}
+
+/* ---------- Campo di ricerca ---------- */
+.form-control {
+  background-color: var(--legno);
+  color: var(--pietra);
+  border: 3px solid var(--oro);
+  border-radius: 0;
+}
+
+.form-control:focus {
+  background-color: var(--legno);
+  color: var(--pietra);
+  border-color: var(--oro-chiaro);
+  box-shadow: none;
+}
+
+.form-control::placeholder {
+  color: #a8916a;
+}
+
+/* ---------- Home: sezione grande con la piazza ---------- */
+/* Immagine pixel art 1792x592 (circa 3:1): mostri a sinistra, arciere a destra.
+   Il velo scuro è radiale e sta solo dietro al testo centrale, i bordi restano liberi. */
+.hero-piazza {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* 3:1 come l'immagine (altezza = 1/3 della larghezza), ma mai meno di 420px.
+     Niente aspect-ratio: insieme a min-height allargherebbe la sezione oltre lo schermo */
+  min-height: max(420px, 33.333vw);
+  padding: 3rem 1rem;
+  background-image:
+    radial-gradient(ellipse 34% 58% at 50% 50%,
+      rgba(12, 8, 20, 0.62) 0%,
+      rgba(12, 8, 20, 0.42) 55%,
+      rgba(12, 8, 20, 0) 100%),
+    url("../assets/hero.jpg");
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+  border-bottom: 4px solid var(--oro);
+}
+
+/* Testo al centro, largo al massimo circa il 40% della sezione:
+   i mostri a sinistra e l'arciere a destra restano scoperti */
+.hero-piazza h1 {
+  color: var(--oro-chiaro);
+  font-size: clamp(1.35rem, 3.1vw, 2.25rem);   /* prima 1.6rem */
+  line-height: 1.35;
+  max-width: 40%;
+}
+
+.hero-piazza .lead {
+  font-size: clamp(1rem, 1.7vw, 1.6rem);       /* prima 1.25rem */
+  max-width: 42%;
+}
+
+.hero-piazza .btn-lg {
+  font-size: clamp(0.8rem, 1.1vw, 1rem);       /* prima 0.7rem */
+  padding: 0.9em 1.6em;
+}
+
+.hero-piazza h1,
+.hero-piazza .lead {
+  text-shadow: 2px 2px 0 #000, 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Telefono: i lati dell'immagine vengono tagliati, il velo si allarga per coprire il testo */
+@media (max-width: 767.98px) {
+  .hero-piazza {
+    min-height: 360px;
+    background-image:
+      radial-gradient(ellipse 75% 60% at 50% 50%,
+        rgba(12, 8, 20, 0.66) 0%,
+        rgba(12, 8, 20, 0.45) 60%,
+        rgba(12, 8, 20, 0) 100%),
+      url("../assets/hero.jpg");
+  }
+
+  /* su telefono il testo può usare tutta la larghezza, e va a capo */
+  .hero-piazza h1,
+  .hero-piazza .lead {
+    max-width: 100%;
+  }
+}
+
+/* Meteo di oggi nella piazza (contenuto scritto da js/home.js) */
+.meteo-piazza {
+  padding: 1.5rem;
+  background-color: var(--legno);
+  border: 4px solid var(--oro);
+  box-shadow: 4px 4px 0 #000;
+}
+
+.meteo-piazza h2 {
+  color: var(--oro-chiaro);
+}
+
+/* Titolo grande: temperatura e tempo (usa un h3 o la classe .meteo-titolo) */
+#meteo-home h3,
+#meteo-home .meteo-titolo {
+  font-family: var(--font-pixel);
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: var(--pietra);
+  text-shadow: 3px 3px 0 #000;
+  margin-bottom: 1rem;
+}
+
+/* Elenco degli effetti nel gioco, con un quadratino dorato al posto del pallino */
+#meteo-home ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+#meteo-home li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+
+#meteo-home li::before {
+  content: "";
+  position: absolute;
+  left: 0.2rem;
+  top: 0.5em;
+  width: 8px;
+  height: 8px;
+  background-color: var(--oro);
+  box-shadow: 2px 2px 0 #000;
+}
+
+/* Le tre colonne "come si gioca" */
+.passo {
+  height: 100%;
+  padding: 1.5rem;
+  background-color: var(--legno);
+  border: 4px solid var(--oro);
+  box-shadow: 4px 4px 0 #000;
+}
+
+.passo h3 {
+  color: var(--oro-chiaro);
+}
+
+/* ---------- Footer ---------- */
+.footer-sito {
+  border-top: 4px solid var(--oro);
+  background-color: var(--legno);
+  font-size: 0.85rem;
+}
+
+/* Crediti delle API e degli sprite: piccoli e discreti, separati da un puntino */
+.crediti {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  font-size: 0.7rem;
+  color: #c4ad85;
+}
+
+.crediti li {
+  display: inline;
+}
+
+.crediti li + li::before {
+  content: "\00B7";
+  margin: 0 0.5em;
+}
+
+.crediti a,
+.credito-meteo a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.crediti a:hover,
+.credito-meteo a:hover {
+  color: var(--oro-chiaro);
+}
+
+/* Riga "Weather data by Open-Meteo.com" vicino ai dati del meteo */
+.credito-meteo {
+  margin: 0.75rem 0 0;
+  font-size: 0.7rem;
+  color: #c4ad85;
+  text-align: right;
+}
+
+/* ---------- Arena ----------
+   Griglia a 3 colonne uguali ai lati: il canvas sta nella colonna centrale, quindi
+   è centrato nella pagina; il riquadro informazioni sta a sinistra, accanto al canvas.
+   Il canvas (1024x1024) viene rimpicciolito per stare tutto sotto la navbar. */
+.pagina-arena {
+  --arena-gap: 16px;
+}
+
+.arena-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--arena-gap);
+  padding: var(--arena-gap);
+}
+
+.pagina-arena #game {
+  grid-column: 2;
+  display: block;
+  margin: 0;
+  /* lato del quadrato: lo spazio sotto la navbar, ma mai più largo dello schermo */
+  width: min(calc(100vh - var(--navbar-h) - 2 * var(--arena-gap)),
+             calc(100vw - 2 * var(--arena-gap)));
+  height: auto;
+  aspect-ratio: 1 / 1;
+  image-rendering: pixelated;
+  /* main.js mette un bordo di 1px nello style del canvas: il bordo spostava di
+     un pixel la mira, l'outline invece non occupa spazio */
+  border: none !important;
+  outline: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pagina-arena .arena-hud {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: end;      /* attaccato al lato sinistro del canvas */
+  max-width: 300px;
+}
+
+/* style.css rende #ui fisso in alto a sinistra: qui sta nel suo riquadro */
+.pagina-arena .arena-hud #ui {
+  position: static;
+  max-width: none;
+}
+
+.pagina-arena .arena-hud .credito-meteo {
+  margin-top: 4px;
+  padding: 2px 8px;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* Schermi non abbastanza larghi per avere il riquadro accanto al gioco:
+   il riquadro va sopra, compatto su una o due righe, e il canvas si accorcia di conseguenza */
+@media (max-aspect-ratio: 8/5) {
+  .pagina-arena {
+    --arena-hud-h: 96px;
+  }
+
+  .arena-layout {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    row-gap: 8px;
+  }
+
+  .pagina-arena .arena-hud {
+    grid-column: 1;
+    justify-self: center;
+    max-width: min(100%, 720px);
+    text-align: center;
+  }
+
+  .pagina-arena .arena-hud #ui > div {
+    display: inline;
+  }
+
+  .pagina-arena .arena-hud #ui > div + div::before {
+    content: "\00B7";
+    margin: 0 0.5em;
+  }
+
+  .pagina-arena #game {
+    grid-column: 1;
+    width: max(260px, min(calc(100vh - var(--navbar-h) - var(--arena-hud-h) - 2 * var(--arena-gap)),
+                          calc(100vw - 2 * var(--arena-gap))));
+  }
+}
+/* Anteprima dello sprite nella scheda del mostro: mostra il primo fotogramma */
+.anteprima-sprite {
+  width: 120px;
+  height: 120px;
+  background-size: auto 100%;
+  background-position: left center;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  border: 2px solid #c9a14a;
+  margin-bottom: 1rem;
+}
